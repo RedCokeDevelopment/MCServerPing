@@ -20,10 +20,10 @@ public class MCServerPing {
 
     private MCServerPing() {}
 
-    public static JsonObject getPing(final String address) throws IOException {
+    public static MCServerPingResponse getPing(final String address) throws IOException {
         return getPing(address, 25565);
     }
-    public static JsonObject getPing(final String address, final int port) throws IOException {
+    public static MCServerPingResponse getPing(final String address, final int port) throws IOException {
 
         if (address == null) throw new IOException("Hostname cannot be null!");
 
@@ -121,9 +121,12 @@ public class MCServerPing {
 
         jsonObj.addProperty("ping", ping);
 
-        return jsonObj;
+        return MCServerPingResponse.serverPingFromJsonObj(jsonObj);
     }
 
+//    public static ServerPing translatePingJsonObj(JsonObject jsonObj) {
+//        return new Gson().fromJson(jsonObj, ServerPing.class);
+//    }
 
 
     public static void io(final boolean b, final String m) throws IOException {

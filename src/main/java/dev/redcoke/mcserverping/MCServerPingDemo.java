@@ -1,11 +1,13 @@
 package dev.redcoke.mcserverping;
 
-import com.google.gson.Gson;
 
 import java.io.IOException;
 
 public class MCServerPingDemo {
     public static void main(String[] args) throws IOException {
-        System.out.println(new Gson().newBuilder().setPrettyPrinting().create().toJson(MCServerPing.getPing("[ip/domain]", 25545)));
+        String server = "redcoke.dev";
+        System.out.println(MCServerPing.getPing(server, 25545)); // MCServerPingResponse Object
+        System.out.println(MCServerPing.getPing(server, 25545).getAsJsonString()); // Formatted Json String
+        System.out.println(MCServerPing.getPing(server, 25545).getAsJsonObject()); // Json Object
     }
 }

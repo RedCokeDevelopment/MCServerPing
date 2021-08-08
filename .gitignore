@@ -1,0 +1,29 @@
+# Compiled Class Files
+.class
+
+# Log Files
+.log
+
+# Package Files
+.jar
+.war
+.nar
+.ear
+.zip
+.tar.gz
+.rar
+
+# JVM Crash Logs, See httpwww.java.comendownloadhelperror_hotspot.xml
+hs_err_pid
+
+# Config Files
+config.json
+
+# Jetbrains Files
+.idea
+.iws
+workspace.xml
+tasks.xml
+
+# Build Files
+target
