@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.redcoke</groupId>
-    <artifactId>MCServerPing</artifactId>
+    <artifactId>mcserverping</artifactId>
     <version>0.1</version>
 
     <properties>
