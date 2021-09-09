@@ -8,16 +8,45 @@
     <artifactId>mcserverping</artifactId>
     <version>0.1</version>
 
+    <name>MCServerPing</name>
+    <description>A Java API for obtaining info about a Minecraft Server</description>
+    <url>https://github.com/RedCokeDevelopment/MCServerPing</url>
+
+    <organization>
+        <name>Red Coke Development</name>
+        <url>https://redcoke.dev</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>MIT Licenses</name>
+            <url>https://www.opensource.org/licenses/mit-licenses.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>redtea</id>
+            <name>RedTeaDev</name>
+            <email>redtea@redtea.red</email>
+            <organization>Red Coke Development</organization>
+            <organizationUrl>https://github.com/RedCokeDevelopment</organizationUrl>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/RedCokeDevelopment/MCServerPing</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 
@@ -65,6 +94,17 @@
             <artifactId>bungeecord-api</artifactId>
             <version>1.17-R0.1-SNAPSHOT</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.8.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.3.1</version>
         </dependency>
     </dependencies>
 
