@@ -20,9 +20,22 @@ public class MCServerPing {
 
     private MCServerPing() {}
 
+    /**
+     * get Minecraft Server Ping
+     * @param address server address
+     * @return MCServerPingResponse
+     * @throws IOException
+     */
     public static MCServerPingResponse getPing(final String address) throws IOException {
         return getPing(address, 25565);
     }
+    /**
+     * get Minecraft Server Ping
+     * @param address server address
+     * @param port server port
+     * @return MCServerPingResponse
+     * @throws IOException
+     */
     public static MCServerPingResponse getPing(final String address, final int port) throws IOException {
 
         if (address == null) throw new IOException("Hostname cannot be null!");
