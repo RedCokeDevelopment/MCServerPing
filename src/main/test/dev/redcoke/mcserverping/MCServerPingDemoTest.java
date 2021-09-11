@@ -7,11 +7,13 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MCServerPingDemoTest {
-    @Test
-    public void test() throws IOException {
-        String server = "mc.hypixel.net";
-        MCServerPingResponse mcServerPingResponse = MCServerPing.getPing(server, 25545);
-        assertNotNull(mcServerPingResponse.getAsJsonString());
-
+  @Test
+  void test() {
+    var server = "mc.hypixel.net";
+    try {
+      MCServerPing.getPing(server, 25565);
+    } catch (IOException ex) {
+      fail(ex);
     }
+  }
 }
