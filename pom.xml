@@ -169,6 +169,10 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <keyname>${gpg.keyname}</keyname>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
