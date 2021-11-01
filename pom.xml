@@ -18,8 +18,8 @@
     </organization>
     <licenses>
         <license>
-            <name>MIT Licenses</name>
-            <url>https://www.opensource.org/licenses/mit-licenses.php</url>
+            <name>The MIT License</name>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
