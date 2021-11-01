@@ -3,6 +3,7 @@ package dev.redcoke.mcserverping;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,7 +13,7 @@ class MCServerPingDemoTest {
     var server = "mc.hypixel.net";
     try {
       MCServerPing.getPing(server, 25565);
-    } catch (IOException ex) {
+    } catch (IOException | TimeoutException ex) {
       fail(ex);
     }
   }

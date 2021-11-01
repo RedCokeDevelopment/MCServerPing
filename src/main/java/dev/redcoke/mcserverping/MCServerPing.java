@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.xbill.DNS.Lookup;
@@ -31,7 +34,7 @@ public final class MCServerPing {
    * @return MCServerPingResponse
    * @throws IOException
    */
-  public static MCServerPingResponse getPing(final String address) throws IOException {
+  public static MCServerPingResponse getPing(final String address) throws IOException, TimeoutException {
     return getPing(address, 25565);
   }
 
@@ -44,7 +47,7 @@ public final class MCServerPing {
    * @throws IOException
    */
   public static MCServerPingResponse getPing(final String address, final int port)
-          throws IOException {
+          throws IOException, TimeoutException {
 
     if (address == null) {
       throw new IOException("Hostname cannot be null!");
@@ -171,19 +174,42 @@ public final class MCServerPing {
     }
   }
 
-  public static int readVarInt(DataInputStream in) throws IOException {
+  public static int readVarInt(DataInputStream in) throws IOException, TimeoutException {
     int i = 0;
     int j = 0;
-    while (true) {
-      int k = in.readByte();
 
-      i |= (k & 0x7F) << j++ * 7;
+    while (true) {
+      AtomicInteger k = new AtomicInteger();
+
+      var executor = Executors.newSingleThreadExecutor();
+      var future = executor.submit(() -> {
+        try {
+          k.set(in.readByte());
+        } catch (IOException e) {
+          k.set(Integer.MAX_VALUE);
+        }
+      });
+
+      try {
+        future.get(3, TimeUnit.SECONDS);
+      } catch (TimeoutException e) {
+        future.cancel(true);
+        throw e;
+      } catch (ExecutionException | InterruptedException e) {
+        throw new IOException(e);
+      } finally {
+        executor.shutdownNow();
+      }
+
+      if (k.get() == Integer.MAX_VALUE) throw new IOException();
+
+      i |= (k.get() & 0x7F) << j++ * 7;
 
       if (j > 5) {
         throw new IOException("VarInt too big");
       }
 
-      if ((k & 0x80) != 128) {
+      if ((k.get() & 0x80) != 128) {
         break;
       }
     }
