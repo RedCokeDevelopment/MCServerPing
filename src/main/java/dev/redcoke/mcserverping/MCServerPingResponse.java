@@ -35,7 +35,7 @@ public final class MCServerPingResponse {
             jsonObj.get("players").getAsJsonObject().get("online").getAsInt(),
             jsonObj.get("description").getAsJsonObject().get("text").getAsString(),
             (jsonObj.get("description").getAsJsonObject().get("extra") == null) ? null : jsonObj.get("description").getAsJsonObject().get("extra").getAsJsonArray(),
-            jsonObj.get("favicon").getAsString()
+            (jsonObj.get("favicon") == null) ? null : jsonObj.get("favicon").getAsString()
     );
   }
 
