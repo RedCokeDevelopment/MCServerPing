@@ -112,16 +112,16 @@ public final class MCServerPing {
       in.readFully(data);
       json = new String(data, StandardCharsets.UTF_8);
 
-      // Ping ->
-      out.writeByte(0x09); // Packet Size
-      out.writeByte(0x01); // Ping Packet
-      out.writeLong(System.currentTimeMillis());
-
-      // Ping <-
-      readVarInt(in);
-      id = readVarInt(in);
-      io(id == -1, "Server ended data stream unexpectedly.");
-      io(id != 0x01, "Server returned invalid packet"); // Check Ping Packet
+//      // Ping ->
+//      out.writeByte(0x09); // Packet Size
+//      out.writeByte(0x01); // Ping Packet
+//      out.writeLong(System.currentTimeMillis());
+//
+//      // Ping <-
+//      readVarInt(in);
+//      id = readVarInt(in);
+//      io(id == -1, "Server ended data stream unexpectedly.");
+//      io(id != 0x01, "Server returned invalid packet"); // Check Ping Packet
 
     }
 

@@ -15,7 +15,7 @@ public final class MCServerPingResponse {
   private final JsonArray descriptionExtras;
   private final String serverIcon;
 
-  public MCServerPingResponse(int ping, String name, int protocol, int playerMax, int playerOnline, String motd, JsonArray descriptionExtras, String serverIcon) {
+  public MCServerPingResponse(int ping, String name, int protocol, Integer playerMax, Integer playerOnline, String motd, JsonArray descriptionExtras, String serverIcon) {
     this.ping = ping;
     this.version = name;
     this.protocol = protocol;
@@ -27,15 +27,20 @@ public final class MCServerPingResponse {
   }
 
   public static MCServerPingResponse serverPingFromJsonObj(JsonObject jsonObj) {
+    int serverPing = jsonObj.get("ping").getAsInt();
+    String versionName = jsonObj.get("version").getAsString();
+    int serverProtocol = jsonObj.get("protocol").getAsInt();
+    Integer playerMax = null;
+    Integer playerOnline = null;
+    if (jsonObj.has("players")) { // Players object is optional somehow
+      playerMax = jsonObj.get("players").getAsJsonObject().get("max").getAsInt();
+      playerOnline = jsonObj.get("players").getAsJsonObject().get("online").getAsInt();
+    }
+    String serverMOTD = jsonObj.get("description").getAsJsonObject().get("text").getAsString();
+    JsonArray serverDescriptionExtra = (jsonObj.get("description").getAsJsonObject().get("extra") == null) ? null : jsonObj.get("description").getAsJsonObject().get("extra").getAsJsonArray();
+    String favIcon = jsonObj.get("favicon").getAsString();
     return new MCServerPingResponse(
-            jsonObj.get("ping").getAsInt(),
-            jsonObj.get("version").getAsJsonObject().get("name").getAsString(),
-            jsonObj.get("version").getAsJsonObject().get("protocol").getAsInt(),
-            jsonObj.get("players").getAsJsonObject().get("max").getAsInt(),
-            jsonObj.get("players").getAsJsonObject().get("online").getAsInt(),
-            jsonObj.get("description").getAsJsonObject().get("text").getAsString(),
-            (jsonObj.get("description").getAsJsonObject().get("extra") == null) ? null : jsonObj.get("description").getAsJsonObject().get("extra").getAsJsonArray(),
-            (jsonObj.get("favicon") == null) ? null : jsonObj.get("favicon").getAsString()
+            serverPing, versionName, serverProtocol, playerMax, playerOnline, serverMOTD, serverDescriptionExtra, favIcon
     );
   }
 
@@ -51,11 +56,11 @@ public final class MCServerPingResponse {
     return protocol;
   }
 
-  public int getPlayerMax() {
+  public Integer getPlayerMax() {
     return maxPlayers;
   }
 
-  public int getPlayerOnline() {
+  public Integer getPlayerOnline() {
     return onlinePlayers;
   }
 
