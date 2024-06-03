@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 class MCServerPingDemoTest {
   @Test
   void test() {
-    List<String> servers = List.of("hypixel.net", "2b2t.org", "play.cubecraft.net", "play.potwmc.com");
+    List<String> servers = List.of("hypixel.net", "2b2t.org", "play.cubecraft.net");
     for (var server : servers) {
       try {
         MCServerPing.getPing(server, 25565).getAsJsonString();
