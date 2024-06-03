@@ -12,8 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.SRVRecord;
 import org.xbill.DNS.Type;
@@ -134,14 +132,8 @@ public final class MCServerPing {
       var descriptionJsonObject = descriptionJsonElement.getAsJsonObject();
 
       if (descriptionJsonObject.has("extra")) {
-        descriptionJsonObject.addProperty("text",
-                new TextComponent(ComponentSerializer.parse(
-                        descriptionJsonObject
-                                .get("extra")
-                                .getAsJsonArray()
-                                .toString()
-                )).toLegacyText()
-        );
+        descriptionJsonObject.add("raw", descriptionJsonObject.get("extra").getAsJsonArray().getAsJsonArray());
+        descriptionJsonObject.addProperty("text", TextComponentFormatter.toLegacyText(descriptionJsonObject.get("extra").getAsJsonArray()));
         jsonObj.add("description", descriptionJsonObject);
       }
 
