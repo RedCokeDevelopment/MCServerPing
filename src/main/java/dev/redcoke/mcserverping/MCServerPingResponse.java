@@ -22,8 +22,15 @@ public final class MCServerPingResponse {
 
   public static MCServerPingResponse serverPingFromJsonObj(JsonObject jsonObj) {
     int serverPing = jsonObj.get("ping").getAsInt();
-    String versionName = jsonObj.get("version").getAsString();
-    int serverProtocol = jsonObj.get("protocol").getAsInt();
+    String versionName;
+    int serverProtocol;
+    if (jsonObj.get("version").getAsJsonObject().has("name")) { // 1.19+ format
+      versionName = jsonObj.get("version").getAsJsonObject().get("name").getAsString();
+      serverProtocol = jsonObj.get("version").getAsJsonObject().get("protocol").getAsInt();
+    } else { // legacy SLP format (pre 1.19.4)
+      versionName = jsonObj.get("version").getAsString();
+      serverProtocol = jsonObj.get("protocol").getAsInt();
+    }
     Integer playerMax = null;
     Integer playerOnline = null;
     if (jsonObj.has("players")) { // Players object is optional somehow
