@@ -5,10 +5,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
-@Data
+@Getter
 @AllArgsConstructor
 public final class MCServerPingResponse {
   private final int ping;
