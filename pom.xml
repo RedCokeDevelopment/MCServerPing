@@ -6,7 +6,7 @@
 
     <groupId>dev.redcoke</groupId>
     <artifactId>mcserverping</artifactId>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
 
     <name>MCServerPing</name>
     <description>A Java API for obtaining info about a Minecraft Server</description>
