@@ -13,7 +13,7 @@ class MCServerPingDemoTest {
     List<String> servers = List.of("hypixel.net", "2b2t.org", "play.cubecraft.net");
     for (var server : servers) {
       try {
-        MCServerPing.getPing(server, 25565).getAsJsonString();
+        var ignored = MCServerPing.getPing(server, 25565).getAsJsonString();
       } catch (IOException | TimeoutException ex) {
         Assertions.fail(ex);
       }

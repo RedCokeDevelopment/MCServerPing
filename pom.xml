@@ -6,7 +6,7 @@
 
     <groupId>dev.redcoke</groupId>
     <artifactId>mcserverping</artifactId>
-    <version>0.1.5</version>
+    <version>0.2</version>
 
     <name>MCServerPing</name>
     <description>A Java API for obtaining info about a Minecraft Server</description>
@@ -60,10 +60,6 @@
             <id>jcenter</id>
             <name>jcenter-bintray</name>
             <url>https://jcenter.bintray.com</url>
-        </repository>
-        <repository>
-            <id>bungeecord-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
         <repository>
             <id>maven_central</id>
