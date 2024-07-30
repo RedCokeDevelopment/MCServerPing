@@ -6,7 +6,7 @@
 
     <groupId>dev.redcoke</groupId>
     <artifactId>mcserverping</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.5.1</version>
 
     <name>MCServerPing</name>
     <description>A Java API for obtaining info about a Minecraft Server</description>
@@ -62,10 +62,6 @@
             <url>https://jcenter.bintray.com</url>
         </repository>
         <repository>
-            <id>bungeecord-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-        <repository>
             <id>maven_central</id>
             <name>Maven Central</name>
             <url>https://repo.maven.apache.org/maven2/</url>
@@ -76,12 +72,12 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.9.0</version>
+            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
+            <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -92,7 +88,7 @@
         <dependency>
             <groupId>dnsjava</groupId>
             <artifactId>dnsjava</artifactId>
-            <version>3.5.1</version>
+            <version>3.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

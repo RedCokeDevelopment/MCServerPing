@@ -12,6 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import dev.redcoke.mcserverping.utils.TextComponentFormatter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.SRVRecord;
 import org.xbill.DNS.Type;
@@ -19,20 +22,17 @@ import org.xbill.DNS.Type;
 /**
  * API for pinging and obtaining info about a Minecraft server.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MCServerPing {
-
-  private MCServerPing() {
-  }
-
-
   /**
    * Pings a Minecraft Server to obtain server info.
    *
    * @param address server address
    * @return MCServerPingResponse
-   * @throws IOException
+   * @throws IOException failed to resolve hostname
    */
-  public static MCServerPingResponse getPing(final String address) throws IOException, TimeoutException {
+  @SuppressWarnings("unused")
+  public static ServerPingResponse getPing(final String address) throws IOException, TimeoutException {
     return getPing(address, 25565);
   }
 
@@ -41,10 +41,12 @@ public final class MCServerPing {
    *
    * @param address server address
    * @param port    server port
-   * @return MCServerPingResponse
-   * @throws IOException
+   * @return MCServerPingResponse server info
+   * @throws IOException failed to resolve hostname
+   * @throws TimeoutException when the server does not respond within 3 seconds
+   * @see ServerPingResponse
    */
-  public static MCServerPingResponse getPing(final String address, final int port)
+  public static ServerPingResponse getPing(final String address, final int port)
           throws IOException, TimeoutException {
 
     if (address == null) {
@@ -59,11 +61,8 @@ public final class MCServerPing {
     if (srvRecords != null) {
       for (var srvRecord : srvRecords) {
         var srv = (SRVRecord) srvRecord;
-
-
         serverHost = srv.getTarget().toString().replaceFirst("\\.$", "");
         serverPort = srv.getPort();
-
       }
     }
 
@@ -149,13 +148,12 @@ public final class MCServerPing {
 
     jsonObj.addProperty("ping", ping);
 
-    return MCServerPingResponse.serverPingFromJsonObj(jsonObj);
+    return ServerPingResponse.serverPingFromJsonObj(jsonObj);
   }
 
 
   /**
    * Throws IOException when condition is false.
-   *
    * @param b Condition
    * @param m Exception cause
    * @throws IOException Exception
@@ -166,6 +164,13 @@ public final class MCServerPing {
     }
   }
 
+  /**
+   * Reads a VarInt from a DataInputStream.
+   * @param in DataInputStream
+   * @return int
+   * @throws IOException Failed to read VarInt or invalid VarInt
+   * @throws TimeoutException Timed out
+   */
   public static int readVarInt(DataInputStream in) throws IOException, TimeoutException {
     int i = 0;
     int j = 0;
