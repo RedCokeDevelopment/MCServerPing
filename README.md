@@ -4,6 +4,17 @@
 
 MCServerPing is an API for you to obtain basic information for a Minecraft server.
 
+## Quick Start
+
+MCServerPing is available on Maven Central. To use it, add the following dependency to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>dev.redcoke</groupId>
+    <artifactId>mcserverping</artifactId>
+</dependency>
+```
+
 ## Supported Inputs
 
 - IP
