@@ -15,6 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import dev.redcoke.mcserverping.utils.TextComponentFormatter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.SRVRecord;
 import org.xbill.DNS.Type;
@@ -24,16 +26,36 @@ import org.xbill.DNS.Type;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MCServerPing {
+
+  /**
+   * Pings a Minecraft server to obtain info with the custom timeout parameter.
+   *
+   * @param address The address to ping
+   * @param timeout The timeout for the socket
+   *
+   * @return The ping response.
+   *
+   * @throws IOException For any i/o exception during the data exchange.
+   * @throws TimeoutException If the socket connection times out.
+   */
+  @Contract("null, _ -> fail")
+  public static @NotNull ServerPingResponse getPingWithTimeout(final String address, final int timeout) throws IOException, TimeoutException {
+    return getPingWithTimeout(address, 25565, timeout);
+  }
+
   /**
    * Pings a Minecraft Server to obtain server info.
    *
    * @param address server address
+   *
    * @return MCServerPingResponse
+   *
    * @throws IOException failed to resolve hostname
    */
+  @Contract("null -> fail")
   @SuppressWarnings("unused")
-  public static ServerPingResponse getPing(final String address) throws IOException, TimeoutException {
-    return getPing(address, 25565);
+  public static @NotNull ServerPingResponse getPing(final String address) throws IOException, TimeoutException {
+    return getPingWithTimeout(address, 5000);
   }
 
   /**
@@ -41,12 +63,34 @@ public final class MCServerPing {
    *
    * @param address server address
    * @param port    server port
+   *
    * @return MCServerPingResponse server info
+   *
    * @throws IOException failed to resolve hostname
    * @throws TimeoutException when the server does not respond within 3 seconds
+   *
    * @see ServerPingResponse
    */
-  public static ServerPingResponse getPing(final String address, final int port)
+  @Contract("null, _ -> fail")
+  public static @NotNull ServerPingResponse getPing(final String address, final int port) throws IOException, TimeoutException {
+    return getPingWithTimeout(address, port, 5000);
+  }
+
+  /**
+   * Pings a Minecraft Server to obtain server info with a custom timeout parameter.
+   *
+   * @param address server address
+   * @param port    server port
+   * @param timeout The timeout for the socket
+   *
+   * @return MCServerPingResponse server info
+   *
+   * @throws IOException failed to resolve hostname
+   * @throws TimeoutException when the server does not respond within 3 seconds
+   *
+   * @see ServerPingResponse
+   */
+  public static ServerPingResponse getPingWithTimeout(final String address, final int port, final int timeout)
           throws IOException, TimeoutException {
 
     if (address == null) {
@@ -72,7 +116,7 @@ public final class MCServerPing {
 
     try (var socket = new Socket()) {
 
-      socket.connect(new InetSocketAddress(serverHost, serverPort), 5000);
+      socket.connect(new InetSocketAddress(serverHost, serverPort), timeout);
       ping = System.currentTimeMillis() - ping;
 
       var handshakeStream = new ByteArrayOutputStream();
@@ -154,8 +198,10 @@ public final class MCServerPing {
 
   /**
    * Throws IOException when condition is false.
+   *
    * @param b Condition
    * @param m Exception cause
+   *
    * @throws IOException Exception
    */
   public static void io(final boolean b, final String m) throws IOException {
@@ -166,8 +212,11 @@ public final class MCServerPing {
 
   /**
    * Reads a VarInt from a DataInputStream.
+   *
    * @param in DataInputStream
+   *
    * @return int
+   *
    * @throws IOException Failed to read VarInt or invalid VarInt
    * @throws TimeoutException Timed out
    */
@@ -210,7 +259,6 @@ public final class MCServerPing {
         break;
       }
     }
-
     return i;
   }
 
@@ -226,6 +274,4 @@ public final class MCServerPing {
       paramInt >>>= 7;
     }
   }
-
-
 }
