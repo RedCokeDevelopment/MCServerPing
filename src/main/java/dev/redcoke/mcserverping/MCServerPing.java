@@ -256,7 +256,6 @@ public final class MCServerPing {
       }
 
       if ((k.get() & 0x80) != 128) {
-        executor.close();
         break;
       }
     }
